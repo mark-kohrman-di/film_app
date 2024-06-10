@@ -1,0 +1,16 @@
+<.header>
+  Directors <%= @directors.id %>
+  <:subtitle>This is a directors record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/director/#{@directors}/edit"}>
+      <.button>Edit directors</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="First name"><%= @directors.first_name %></:item>
+  <:item title="Last name"><%= @directors.last_name %></:item>
+</.list>
+
+<.back navigate={~p"/director"}>Back to director</.back>

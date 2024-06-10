@@ -1,0 +1,18 @@
+<.header>
+  Titles <%= @titles.id %>
+  <:subtitle>This is a titles record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/title/#{@titles}/edit"}>
+      <.button>Edit titles</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @titles.name %></:item>
+  <:item title="Rating"><%= @titles.rating %></:item>
+  <:item title="Year"><%= @titles.year %></:item>
+  <:item title="Description"><%= @titles.description %></:item>
+</.list>
+
+<.back navigate={~p"/title"}>Back to title</.back>

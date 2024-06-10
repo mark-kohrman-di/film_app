@@ -1,0 +1,24 @@
+<.header>
+  Listing Director
+  <:actions>
+    <.link href={~p"/director/new"}>
+      <.button>New Directors</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="director" rows={@director} row_click={&JS.navigate(~p"/director/#{&1}")}>
+  <:col :let={directors} label="First name"><%= directors.first_name %></:col>
+  <:col :let={directors} label="Last name"><%= directors.last_name %></:col>
+  <:action :let={directors}>
+    <div class="sr-only">
+      <.link navigate={~p"/director/#{directors}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/director/#{directors}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={directors}>
+    <.link href={~p"/director/#{directors}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

@@ -1,0 +1,8 @@
+<.header>
+  Edit Actors <%= @actors.id %>
+  <:subtitle>Use this form to manage actors records in your database.</:subtitle>
+</.header>
+
+<.actors_form changeset={@changeset} action={~p"/actor/#{@actors}"} />
+
+<.back navigate={~p"/actor"}>Back to actor</.back>

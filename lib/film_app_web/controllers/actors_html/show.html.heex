@@ -1,0 +1,16 @@
+<.header>
+  Actors <%= @actors.id %>
+  <:subtitle>This is a actors record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/actor/#{@actors}/edit"}>
+      <.button>Edit actors</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="First name"><%= @actors.first_name %></:item>
+  <:item title="Last name"><%= @actors.last_name %></:item>
+</.list>
+
+<.back navigate={~p"/actor"}>Back to actor</.back>
