@@ -31,6 +31,42 @@ defmodule FilmAppWeb.FilmsController do
     render(conn, :show, films: films)
   end
 
+  def show_film(conn, %{"id" => id}) do
+    url = "http://www.omdbapi.com/?apikey=d5f7851&i=#{id}"
+
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        {:ok, body |> Jason.decode!()}
+        decoded_body = body |> Jason.decode!()
+        IO.inspect(decoded_body)
+        normalized = normalize_films(decoded_body)
+        render(conn, :show, films: normalized)
+
+        # index_searches(conn, normalized)
+        # {:ok, decoded_body}
+      {:ok, %HTTPoison.Response{status_code: status_code}} ->
+        {:error, "Received non-200 response: #{status_code}"}
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:error, "Request failed: #{reason}"}
+    end
+
+  end
+
+  def normalize_films(body) do
+    # coming_soon_url = "https://user-images.githubusercontent.com/6929121/87441911-486bf600-c611-11ea-9d45-94c215733cf7.png"
+    films = %FilmApp.Movies.Films{
+        id: body["imdbID"],
+        title: body["Title"],
+        year: body["Year"],
+        plot: body["Plot"],
+        director: body["Director"],
+        poster_url: body["Poster"],
+        user_rating: 0
+       }
+
+    films
+  end
+
   def edit(conn, %{"id" => id}) do
     films = Movies.get_films!(id)
     changeset = Movies.change_films(films)

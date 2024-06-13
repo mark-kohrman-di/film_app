@@ -6,9 +6,6 @@ defmodule FilmAppWeb.SearchesController do
 
   def index(conn, params) do
     search = Movies.list_search()
-    IO.inspect("yo")
-    IO.inspect(params)
-    IO.inspect("yo")
 
     render(conn, :index, search: search)
   end

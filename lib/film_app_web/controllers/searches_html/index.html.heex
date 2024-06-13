@@ -2,12 +2,12 @@
   Listing Search
   <:actions>
     <.link href={~p"/search/new"}>
-      <.button>New Searches</.button>
+      <.button>Search Movies</.button>
     </.link>
   </:actions>
 </.header>
 
-<.table id="search" rows={@search} row_click={&JS.navigate(~p"/search/#{&1}")}>
+<.table id="search" rows={@search} row_click={&JS.navigate(~p"/film-s/#{&1}")}>
   <:col :let={searches} label="Title"><%= searches.title %></:col>
   <:col :let={searches} label="Year"><%= searches.year %></:col>
   <:col :let={searches} label="Poster">
@@ -15,13 +15,8 @@
   </:col>
   <:action :let={searches}>
     <div class="sr-only">
-      <.link navigate={~p"/search/#{searches}"}>Show</.link>
+      <.link navigate={~p"/film/#{searches}"}>Show</.link>
     </div>
-    <.link navigate={~p"/search/#{searches}/edit"}>Rate</.link>
-  </:action>
-  <:action :let={searches}>
-    <.link href={~p"/search/#{searches}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
+    <.link navigate={~p"/film/#{searches}/edit"}>Rate</.link>
   </:action>
 </.table>
