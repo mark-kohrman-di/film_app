@@ -147,6 +147,10 @@ defmodule FilmApp.Movies do
 
   """
   def create_searches(attrs \\ %{}) do
+    IO.inspect("in create searches")
+    IO.inspect(attrs)
+    IO.inspect("in create searches")
+
     %Searches{}
     |> Searches.changeset(attrs)
     |> Repo.insert()
@@ -196,9 +200,102 @@ defmodule FilmApp.Movies do
 
   """
   def change_searches(%Searches{} = searches, attrs \\ %{}) do
-    IO.inspect("searche")
-    IO.inspect(searches)
-    IO.inspect("searche")
     Searches.changeset(searches, attrs)
+  end
+
+  alias FilmApp.Movies.Films
+
+  @doc """
+  Returns the list of film.
+
+  ## Examples
+
+      iex> list_film()
+      [%Films{}, ...]
+
+  """
+  def list_film do
+    Repo.all(Films)
+  end
+
+  @doc """
+  Gets a single films.
+
+  Raises `Ecto.NoResultsError` if the Films does not exist.
+
+  ## Examples
+
+      iex> get_films!(123)
+      %Films{}
+
+      iex> get_films!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_films!(id), do: Repo.get!(Films, id)
+
+  @doc """
+  Creates a films.
+
+  ## Examples
+
+      iex> create_films(%{field: value})
+      {:ok, %Films{}}
+
+      iex> create_films(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_films(attrs \\ %{}) do
+    %Films{}
+    |> Films.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a films.
+
+  ## Examples
+
+      iex> update_films(films, %{field: new_value})
+      {:ok, %Films{}}
+
+      iex> update_films(films, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_films(%Films{} = films, attrs) do
+    films
+    |> Films.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a films.
+
+  ## Examples
+
+      iex> delete_films(films)
+      {:ok, %Films{}}
+
+      iex> delete_films(films)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_films(%Films{} = films) do
+    Repo.delete(films)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking films changes.
+
+  ## Examples
+
+      iex> change_films(films)
+      %Ecto.Changeset{data: %Films{}}
+
+  """
+  def change_films(%Films{} = films, attrs \\ %{}) do
+    Films.changeset(films, attrs)
   end
 end

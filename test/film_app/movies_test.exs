@@ -117,4 +117,66 @@ defmodule FilmApp.MoviesTest do
       assert %Ecto.Changeset{} = Movies.change_searches(searches)
     end
   end
+
+  describe "film" do
+    alias FilmApp.Movies.Films
+
+    import FilmApp.MoviesFixtures
+
+    @invalid_attrs %{title: nil, year: nil, plot: nil, director: nil, user_rating: nil}
+
+    test "list_film/0 returns all film" do
+      films = films_fixture()
+      assert Movies.list_film() == [films]
+    end
+
+    test "get_films!/1 returns the films with given id" do
+      films = films_fixture()
+      assert Movies.get_films!(films.id) == films
+    end
+
+    test "create_films/1 with valid data creates a films" do
+      valid_attrs = %{title: "some title", year: 42, plot: "some plot", director: "some director", user_rating: 120.5}
+
+      assert {:ok, %Films{} = films} = Movies.create_films(valid_attrs)
+      assert films.title == "some title"
+      assert films.year == 42
+      assert films.plot == "some plot"
+      assert films.director == "some director"
+      assert films.user_rating == 120.5
+    end
+
+    test "create_films/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Movies.create_films(@invalid_attrs)
+    end
+
+    test "update_films/2 with valid data updates the films" do
+      films = films_fixture()
+      update_attrs = %{title: "some updated title", year: 43, plot: "some updated plot", director: "some updated director", user_rating: 456.7}
+
+      assert {:ok, %Films{} = films} = Movies.update_films(films, update_attrs)
+      assert films.title == "some updated title"
+      assert films.year == 43
+      assert films.plot == "some updated plot"
+      assert films.director == "some updated director"
+      assert films.user_rating == 456.7
+    end
+
+    test "update_films/2 with invalid data returns error changeset" do
+      films = films_fixture()
+      assert {:error, %Ecto.Changeset{}} = Movies.update_films(films, @invalid_attrs)
+      assert films == Movies.get_films!(films.id)
+    end
+
+    test "delete_films/1 deletes the films" do
+      films = films_fixture()
+      assert {:ok, %Films{}} = Movies.delete_films(films)
+      assert_raise Ecto.NoResultsError, fn -> Movies.get_films!(films.id) end
+    end
+
+    test "change_films/1 returns a films changeset" do
+      films = films_fixture()
+      assert %Ecto.Changeset{} = Movies.change_films(films)
+    end
+  end
 end

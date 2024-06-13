@@ -9,11 +9,15 @@
 
 <.table id="search" rows={@search} row_click={&JS.navigate(~p"/search/#{&1}")}>
   <:col :let={searches} label="Title"><%= searches.title %></:col>
+  <:col :let={searches} label="Year"><%= searches.year %></:col>
+  <:col :let={searches} label="Poster">
+    <img src={searches.poster_url} alt="%= searches.title %> poster" style="max-width: 400px; max-height: 200px;">
+  </:col>
   <:action :let={searches}>
     <div class="sr-only">
       <.link navigate={~p"/search/#{searches}"}>Show</.link>
     </div>
-    <.link navigate={~p"/search/#{searches}/edit"}>Edit</.link>
+    <.link navigate={~p"/search/#{searches}/edit"}>Rate</.link>
   </:action>
   <:action :let={searches}>
     <.link href={~p"/search/#{searches}"} method="delete" data-confirm="Are you sure?">

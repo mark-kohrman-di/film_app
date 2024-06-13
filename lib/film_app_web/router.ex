@@ -57,6 +57,14 @@ defmodule FilmAppWeb.Router do
     put "/search/:id", SearchesController, :update
     delete "/search/:id", SearchesController, :delete
 
+    get "/films", FilmsController, :index
+    get "/film", FilmsController, :index
+    get "/film/new", FilmsController, :new
+    post "/film", FilmsController, :create
+    get "/film/:id", FilmsController, :show
+    get "/film/:id/edit", FilmsController, :edit
+    put "/film/:id", FilmsController, :update
+    delete "/film/:id", FilmsController, :delete
   end
 
   # Other scopes may use custom stacks.

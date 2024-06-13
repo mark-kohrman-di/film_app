@@ -1,0 +1,19 @@
+<.header>
+  Films <%= @films.id %>
+  <:subtitle>This is a films record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/film/#{@films}/edit"}>
+      <.button>Edit films</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title"><%= @films.title %></:item>
+  <:item title="Year"><%= @films.year %></:item>
+  <:item title="Plot"><%= @films.plot %></:item>
+  <:item title="Director"><%= @films.director %></:item>
+  <:item title="User rating"><%= @films.user_rating %></:item>
+</.list>
+
+<.back navigate={~p"/film"}>Back to film</.back>
