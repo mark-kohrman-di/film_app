@@ -37,4 +37,22 @@ defmodule FilmApp.MoviesFixtures do
 
     searches
   end
+
+  @doc """
+  Generate a films.
+  """
+  def films_fixture(attrs \\ %{}) do
+    {:ok, films} =
+      attrs
+      |> Enum.into(%{
+        director: "some director",
+        plot: "some plot",
+        title: "some title",
+        user_rating: 120.5,
+        year: 42
+      })
+      |> FilmApp.Movies.create_films()
+
+    films
+  end
 end

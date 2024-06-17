@@ -4,9 +4,9 @@ defmodule FilmApp.Movies do
   """
 
   import Ecto.Query, warn: false
-  alias FilmApp.Repo
-
+  alias FilmApp.Movies.Film
   alias FilmApp.Movies.Titles
+  alias FilmApp.Repo
 
   @doc """
   Returns the list of title.
@@ -147,6 +147,10 @@ defmodule FilmApp.Movies do
 
   """
   def create_searches(attrs \\ %{}) do
+    IO.inspect("in create searches")
+    IO.inspect(attrs)
+    IO.inspect("in create searches")
+
     %Searches{}
     |> Searches.changeset(attrs)
     |> Repo.insert()
@@ -196,9 +200,100 @@ defmodule FilmApp.Movies do
 
   """
   def change_searches(%Searches{} = searches, attrs \\ %{}) do
-    IO.inspect("searche")
-    IO.inspect(searches)
-    IO.inspect("searche")
     Searches.changeset(searches, attrs)
+  end
+
+  @doc """
+  Returns the list of film.
+
+  ## Examples
+
+      iex> list_film()
+      [%Films{}, ...]
+
+  """
+  def list_film do
+    Repo.all(Film)
+  end
+
+  @doc """
+  Gets a single films.
+
+  Raises `Ecto.NoResultsError` if the Films does not exist.
+
+  ## Examples
+
+      iex> get_films!(123)
+      %Films{}
+
+      iex> get_films!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_films!(id), do: Repo.get!(Film, id)
+
+  @doc """
+  Creates a films.
+
+  ## Examples
+
+      iex> create_films(%{field: value})
+      {:ok, %Films{}}
+
+      iex> create_films(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_films(attrs \\ %{}) do
+    %Film{}
+    |> Film.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a films.
+
+  ## Examples
+
+      iex> update_films(films, %{field: new_value})
+      {:ok, %Films{}}
+
+      iex> update_films(films, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_films(%Film{} = film, attrs) do
+    film
+    |> Film.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a film.
+
+  ## Examples
+
+      iex> delete_film(film)
+      {:ok, %Film{}}
+
+      iex> delete_film(film)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_film(%Film{} = film) do
+    Repo.delete(film)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking film changes.
+
+  ## Examples
+
+      iex> change_film(film)
+      %Ecto.Changeset{data: %Film{}}
+
+  """
+  def change_film(%Film{} = film, attrs \\ %{}) do
+    Film.changeset(film, attrs)
   end
 end

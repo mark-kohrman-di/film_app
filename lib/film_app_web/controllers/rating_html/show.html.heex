@@ -1,0 +1,20 @@
+<.header>
+  Rating <%= @rating.id %>
+  <:subtitle>This is a rating record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/ratings/#{@rating}/edit"}>
+      <.button>Edit rating</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title"><%= @rating.title %></:item>
+  <:item title="Rating"><%= @rating.rating %></:item>
+  <:item title="Year"><%= @rating.year %></:item>
+  <:item title="Plot"><%= @rating.plot %></:item>
+  <:item title="Actors"><%= @rating.actors %></:item>
+  <:item title="Director"><%= @rating.director %></:item>
+</.list>
+
+<.back navigate={~p"/ratings"}>Back to ratings</.back>

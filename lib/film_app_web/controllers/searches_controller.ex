@@ -4,37 +4,56 @@ defmodule FilmAppWeb.SearchesController do
   alias FilmApp.Movies
   alias FilmApp.Movies.Searches
 
-  def index(conn, params) do
+  def index(conn, _params) do
     search = Movies.list_search()
-    IO.inspect("yo")
-    IO.inspect(params)
-    IO.inspect("yo")
 
     render(conn, :index, search: search)
   end
 
-  def new(conn, params) do
-    changeset = Movies.change_searches(%Searches{})
-    IO.inspect("changeset")
-    IO.inspect(changeset)
-    IO.inspect("changeset")
-    IO.inspect("params")
-    IO.inspect(params)
-    IO.inspect("params")
+  def index_searches(conn, searches) do
+    render(conn, :index, search: searches)
+  end
 
+  @spec new(Plug.Conn.t(), any()) :: Plug.Conn.t()
+  def new(conn, _params) do
+    changeset = Movies.change_searches(%Searches{})
     render(conn, :new, changeset: changeset)
   end
 
-  def create(conn, %{"searches" => searches_params}) do
-    case Movies.create_searches(searches_params) do
-      {:ok, searches} ->
-        conn
-        |> put_flash(:info, "Searches created successfully.")
-        |> redirect(to: ~p"/search/#{searches}")
+  def search(conn, %{"searches" => searches_params}) do
+    url = "http://www.omdbapi.com/?apikey=d5f7851&s=#{searches_params["title"]}"
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+    encoded_url = String.replace(url, " ", "%20")
+
+    case HTTPoison.get(encoded_url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        {:ok, body |> Jason.decode!()}
+        decoded_body = body |> Jason.decode!()
+        normalized = normalize_searches(decoded_body)
+        index_searches(conn, normalized)
+      {:ok, %HTTPoison.Response{status_code: status_code}} ->
+        {:error, "Received non-200 response: #{status_code}"}
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:error, "Request failed: #{reason}"}
     end
+  end
+
+  @spec normalize_searches(nil | maybe_improper_list() | map()) :: list()
+  def normalize_searches(body) do
+    coming_soon_url = "https://user-images.githubusercontent.com/6929121/87441911-486bf600-c611-11ea-9d45-94c215733cf7.png"
+    films = Enum.map(body["Search"], fn movie ->
+
+      poster_url = if movie["Poster"] == "N/A", do: coming_soon_url, else: movie["Poster"]
+
+       %FilmApp.Movies.Searches{
+        id: movie["imdbID"],
+        title: movie["Title"],
+        year: movie["Year"],
+        poster_url: poster_url,
+       }
+    end)
+
+    films
   end
 
   def show(conn, %{"id" => id}) do
