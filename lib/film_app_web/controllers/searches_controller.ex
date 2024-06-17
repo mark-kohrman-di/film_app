@@ -4,7 +4,7 @@ defmodule FilmAppWeb.SearchesController do
   alias FilmApp.Movies
   alias FilmApp.Movies.Searches
 
-  def index(conn, params) do
+  def index(conn, _params) do
     search = Movies.list_search()
 
     render(conn, :index, search: search)
@@ -15,12 +15,12 @@ defmodule FilmAppWeb.SearchesController do
   end
 
   @spec new(Plug.Conn.t(), any()) :: Plug.Conn.t()
-  def new(conn, params) do
+  def new(conn, _params) do
     changeset = Movies.change_searches(%Searches{})
     render(conn, :new, changeset: changeset)
   end
 
-  def create(conn, %{"searches" => searches_params}) do
+  def search(conn, %{"searches" => searches_params}) do
     url = "http://www.omdbapi.com/?apikey=d5f7851&s=#{searches_params["title"]}"
 
     encoded_url = String.replace(url, " ", "%20")
@@ -31,7 +31,6 @@ defmodule FilmAppWeb.SearchesController do
         decoded_body = body |> Jason.decode!()
         normalized = normalize_searches(decoded_body)
         index_searches(conn, normalized)
-        # {:ok, decoded_body}
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
         {:error, "Received non-200 response: #{status_code}"}
       {:error, %HTTPoison.Error{reason: reason}} ->

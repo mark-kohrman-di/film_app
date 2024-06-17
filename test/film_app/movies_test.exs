@@ -168,15 +168,15 @@ defmodule FilmApp.MoviesTest do
       assert films == Movies.get_films!(films.id)
     end
 
-    test "delete_films/1 deletes the films" do
+    test "delete_film/1 deletes the films" do
       films = films_fixture()
-      assert {:ok, %Films{}} = Movies.delete_films(films)
+      assert {:ok, %Films{}} = Movies.delete_film(films)
       assert_raise Ecto.NoResultsError, fn -> Movies.get_films!(films.id) end
     end
 
-    test "change_films/1 returns a films changeset" do
+    test "change_film/1 returns a films changeset" do
       films = films_fixture()
-      assert %Ecto.Changeset{} = Movies.change_films(films)
+      assert %Ecto.Changeset{} = Movies.change_film(films)
     end
   end
 end

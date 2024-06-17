@@ -4,9 +4,9 @@ defmodule FilmApp.Movies do
   """
 
   import Ecto.Query, warn: false
-  alias FilmApp.Repo
-
+  alias FilmApp.Movies.Film
   alias FilmApp.Movies.Titles
+  alias FilmApp.Repo
 
   @doc """
   Returns the list of title.
@@ -203,8 +203,6 @@ defmodule FilmApp.Movies do
     Searches.changeset(searches, attrs)
   end
 
-  alias FilmApp.Movies.Films
-
   @doc """
   Returns the list of film.
 
@@ -215,7 +213,7 @@ defmodule FilmApp.Movies do
 
   """
   def list_film do
-    Repo.all(Films)
+    Repo.all(Film)
   end
 
   @doc """
@@ -232,7 +230,7 @@ defmodule FilmApp.Movies do
       ** (Ecto.NoResultsError)
 
   """
-  def get_films!(id), do: Repo.get!(Films, id)
+  def get_films!(id), do: Repo.get!(Film, id)
 
   @doc """
   Creates a films.
@@ -247,8 +245,8 @@ defmodule FilmApp.Movies do
 
   """
   def create_films(attrs \\ %{}) do
-    %Films{}
-    |> Films.changeset(attrs)
+    %Film{}
+    |> Film.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -264,38 +262,38 @@ defmodule FilmApp.Movies do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_films(%Films{} = films, attrs) do
-    films
-    |> Films.changeset(attrs)
+  def update_films(%Film{} = film, attrs) do
+    film
+    |> Film.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a films.
+  Deletes a film.
 
   ## Examples
 
-      iex> delete_films(films)
-      {:ok, %Films{}}
+      iex> delete_film(film)
+      {:ok, %Film{}}
 
-      iex> delete_films(films)
+      iex> delete_film(film)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_films(%Films{} = films) do
-    Repo.delete(films)
+  def delete_film(%Film{} = film) do
+    Repo.delete(film)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking films changes.
+  Returns an `%Ecto.Changeset{}` for tracking film changes.
 
   ## Examples
 
-      iex> change_films(films)
-      %Ecto.Changeset{data: %Films{}}
+      iex> change_film(film)
+      %Ecto.Changeset{data: %Film{}}
 
   """
-  def change_films(%Films{} = films, attrs \\ %{}) do
-    Films.changeset(films, attrs)
+  def change_film(%Film{} = film, attrs \\ %{}) do
+    Film.changeset(film, attrs)
   end
 end

@@ -1,6 +1,6 @@
 <.header>
-  Movie: <%= @films.title %>
-  <:subtitle>This is a films record from your database.</:subtitle>
+  <%= @films.title %>
+  <:subtitle>Select your rating below.</:subtitle>
   <:actions>
     <.link href={~p"/film/#{@films}/edit"}>
       <.button>Edit films</.button>
@@ -16,7 +16,20 @@
   <:item title="Year"><%= @films.year %></:item>
   <:item title="Plot"><%= @films.plot %></:item>
   <:item title="Director"><%= @films.director %></:item>
-  <:item title="User rating"><%= @films.user_rating %></:item>
+  <:item title="User Rating">
+    <select title="User rating">
+      <%= for x <- 50..0//-1 do %>
+        <option value={x / 10}> <%= x / 10 %> </option>
+      <% end %>
+    </select>
+  </:item>
+
 </.list>
 
+<.header>
+    <:actions>
+      <.button> Save Rating </.button>
+    </:actions>
+
+</.header>
 <.back navigate={~p"/film"}>Back to film</.back>

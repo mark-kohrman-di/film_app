@@ -1,13 +1,14 @@
-defmodule FilmApp.Repo.Migrations.CreateFilm do
+defmodule FilmApp.Repo.Migrations.CreateRatings do
   use Ecto.Migration
 
   def change do
-    create table(:film) do
+    create table(:ratings) do
       add :title, :string
+      add :rating, :float
       add :year, :integer
       add :plot, :string
+      add :actors, :string
       add :director, :string
-      add :user_rating, :float
 
       timestamps(type: :utc_datetime)
     end

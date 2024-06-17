@@ -2,7 +2,7 @@ defmodule FilmAppWeb.FilmsController do
   use FilmAppWeb, :controller
 
   alias FilmApp.Movies
-  alias FilmApp.Movies.Films
+  alias FilmApp.Movies.Film
 
   def index(conn, _params) do
     film = Movies.list_film()
@@ -10,7 +10,7 @@ defmodule FilmAppWeb.FilmsController do
   end
 
   def new(conn, _params) do
-    changeset = Movies.change_films(%Films{})
+    changeset = Movies.change_film(%Film{})
     render(conn, :new, changeset: changeset)
   end
 
@@ -38,12 +38,9 @@ defmodule FilmAppWeb.FilmsController do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body |> Jason.decode!()}
         decoded_body = body |> Jason.decode!()
-        IO.inspect(decoded_body)
+
         normalized = normalize_films(decoded_body)
         render(conn, :show, films: normalized)
-
-        # index_searches(conn, normalized)
-        # {:ok, decoded_body}
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
         {:error, "Received non-200 response: #{status_code}"}
       {:error, %HTTPoison.Error{reason: reason}} ->
@@ -54,7 +51,7 @@ defmodule FilmAppWeb.FilmsController do
 
   def normalize_films(body) do
     # coming_soon_url = "https://user-images.githubusercontent.com/6929121/87441911-486bf600-c611-11ea-9d45-94c215733cf7.png"
-    films = %FilmApp.Movies.Films{
+    films = %Film{
         id: body["imdbID"],
         title: body["Title"],
         year: body["Year"],
@@ -69,7 +66,7 @@ defmodule FilmAppWeb.FilmsController do
 
   def edit(conn, %{"id" => id}) do
     films = Movies.get_films!(id)
-    changeset = Movies.change_films(films)
+    changeset = Movies.change_film(films)
     render(conn, :edit, films: films, changeset: changeset)
   end
 
@@ -89,7 +86,7 @@ defmodule FilmAppWeb.FilmsController do
 
   def delete(conn, %{"id" => id}) do
     films = Movies.get_films!(id)
-    {:ok, _films} = Movies.delete_films(films)
+    {:ok, _films} = Movies.delete_film(films)
 
     conn
     |> put_flash(:info, "Films deleted successfully.")

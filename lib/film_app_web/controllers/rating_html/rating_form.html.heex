@@ -1,0 +1,14 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:title]} type="text" label="Title" />
+  <.input field={f[:rating]} type="number" label="Rating" step="any" />
+  <.input field={f[:year]} type="number" label="Year" />
+  <.input field={f[:plot]} type="text" label="Plot" />
+  <.input field={f[:actors]} type="text" label="Actors" />
+  <.input field={f[:director]} type="text" label="Director" />
+  <:actions>
+    <.button>Save Rating</.button>
+  </:actions>
+</.simple_form>

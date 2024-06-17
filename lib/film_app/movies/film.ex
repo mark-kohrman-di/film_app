@@ -1,8 +1,8 @@
-defmodule FilmApp.Movies.Films do
+defmodule FilmApp.Movies.Film do
   use Ecto.Schema
   import Ecto.Changeset
-
-  schema "film" do
+  #todo change module name to film, schema to films
+  schema "films" do
     field :title, :string
     field :year, :integer
     field :plot, :string
@@ -14,8 +14,8 @@ defmodule FilmApp.Movies.Films do
   end
 
   @doc false
-  def changeset(films, attrs) do
-    films
+  def changeset(film, attrs) do
+    film
     |> cast(attrs, [:title, :year, :plot, :director, :user_rating, :poster_url])
     |> validate_required([:title, :year, :plot, :director, :user_rating])
   end
