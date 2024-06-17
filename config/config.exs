@@ -7,6 +7,7 @@
 # General application configuration
 import Config
 
+
 config :film_app,
   ecto_repos: [FilmApp.Repo],
   generators: [timestamp_type: :utc_datetime]
@@ -64,3 +65,4 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
+import_config "../dev/test/#{Mix.env}.secret.exs"

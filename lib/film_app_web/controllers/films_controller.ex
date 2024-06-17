@@ -32,7 +32,9 @@ defmodule FilmAppWeb.FilmsController do
   end
 
   def show_film(conn, %{"id" => id}) do
-    url = "http://www.omdbapi.com/?apikey=d5f7851&i=#{id}"
+    api_key = Application.get_env(:film_app, :api_key)
+
+    url = "http://www.omdbapi.com/?apikey=#{api_key}&i=#{id}"
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->

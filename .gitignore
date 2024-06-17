@@ -35,3 +35,5 @@ film_app-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Ignore secrets.
+/dev/test
