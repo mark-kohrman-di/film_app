@@ -32,9 +32,7 @@ defmodule FilmAppWeb.FilmsController do
   end
 
   def show_film(conn, %{"id" => id}) do
-    api_key = Application.get_env(:film_app, :api_key)
-
-    url = "http://www.omdbapi.com/?apikey=#{api_key}&i=#{id}"
+    url = "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&i=#{id}"
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -52,7 +50,6 @@ defmodule FilmAppWeb.FilmsController do
   end
 
   def normalize_films(body) do
-    # coming_soon_url = "https://user-images.githubusercontent.com/6929121/87441911-486bf600-c611-11ea-9d45-94c215733cf7.png"
     films = %Film{
         id: body["imdbID"],
         title: body["Title"],
