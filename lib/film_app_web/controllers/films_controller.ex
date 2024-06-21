@@ -25,7 +25,9 @@ defmodule FilmAppWeb.FilmsController do
             plot: normalized.plot,
             director: normalized.director,
             poster_url: normalized.poster_url,
-            user_rating: normalized.user_rating
+            user_rating: normalized.user_rating,
+            actors: normalized.actors,
+            imdb_id: normalized.imdb_id
           }
         )
 
@@ -54,23 +56,6 @@ defmodule FilmAppWeb.FilmsController do
     render(conn, :show, films: films)
   end
 
-  def show_film(conn, %{"id" => id}) do
-    url = "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&i=#{id}"
-
-    case HTTPoison.get(url) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        {:ok, body |> Jason.decode!()}
-        decoded_body = body |> Jason.decode!()
-
-        normalized = normalize_films(decoded_body)
-        render(conn, :show, films: normalized)
-      {:ok, %HTTPoison.Response{status_code: status_code}} ->
-        {:error, "Received non-200 response: #{status_code}"}
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:error, "Request failed: #{reason}"}
-    end
-
-  end
 
   def normalize_films(body) do
     films = %Film{
@@ -80,7 +65,9 @@ defmodule FilmAppWeb.FilmsController do
         plot: body["Plot"],
         director: body["Director"],
         poster_url: body["Poster"],
-        user_rating: 0
+        user_rating: 0,
+        actors: body["Actors"],
+        imdb_id: body["imdbID"]
        }
 
     films
