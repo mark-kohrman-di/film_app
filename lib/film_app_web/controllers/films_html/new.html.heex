@@ -1,8 +1,3 @@
-<.header>
-  New Films
-  <:subtitle>Use this form to manage films records in your database.</:subtitle>
-</.header>
-
-<.films_form changeset={@changeset} action={~p"/film"} />
+<.films_form changeset={@changeset} films={@films} action={~p"/film"} />
 
 <.back navigate={~p"/film"}>Back to film</.back>

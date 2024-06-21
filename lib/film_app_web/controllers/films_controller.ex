@@ -9,12 +9,35 @@ defmodule FilmAppWeb.FilmsController do
     render(conn, :index, film: film)
   end
 
-  def new(conn, _params) do
-    changeset = Movies.change_film(%Film{})
-    render(conn, :new, changeset: changeset)
+  def new(conn, %{"id" => id}) do
+    url = "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&i=#{id}"
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        {:ok, body |> Jason.decode!()}
+        decoded_body = body |> Jason.decode!()
+
+        normalized = normalize_films(decoded_body)
+
+        changeset = Movies.change_film(
+          %Film{
+            title: normalized.title,
+            year: normalized.year,
+            plot: normalized.plot,
+            director: normalized.director,
+            poster_url: normalized.poster_url,
+            user_rating: normalized.user_rating
+          }
+        )
+
+        render(conn, :new, films: normalized, changeset: changeset)
+      {:ok, %HTTPoison.Response{status_code: status_code}} ->
+        {:error, "Received non-200 response: #{status_code}"}
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:error, "Request failed: #{reason}"}
+    end
   end
 
-  def create(conn, %{"films" => films_params}) do
+  def create(conn, %{"film" => films_params}) do
     case Movies.create_films(films_params) do
       {:ok, films} ->
         conn

@@ -59,7 +59,7 @@ defmodule FilmAppWeb.Router do
 
     get "/films", FilmsController, :index
     get "/film", FilmsController, :index
-    get "/film/new", FilmsController, :new
+    get "/film/new/:id", FilmsController, :new
     post "/film", FilmsController, :create
     get "/film/:id", FilmsController, :show
     get "/film/:id/rate", FilmsController, :show_film

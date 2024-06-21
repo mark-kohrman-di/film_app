@@ -7,7 +7,7 @@
   </:actions>
 </.header>
 
-<.table id="search" rows={@search} row_click={&JS.navigate(~p"/film/#{&1}/rate")}>
+<.table id="search" rows={@search} row_click={&JS.navigate(~p"/film/new/#{&1}")}>
   <:col :let={searches} label="Title"><%= searches.title %></:col>
   <:col :let={searches} label="Year"><%= searches.year %></:col>
   <:col :let={searches} label="Poster">

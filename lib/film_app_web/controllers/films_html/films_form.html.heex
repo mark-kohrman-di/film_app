@@ -1,13 +1,46 @@
+<.header>
+  <%= @films.title %>
+  <:subtitle>Select your rating below.</:subtitle>
+  <:actions>
+    <.link href={~p"/search/new"}>
+      <.button>Back to Search</.button>
+    </.link>
+  </:actions>
+</.header>
+<.list>
+  <:item title="">
+      <img src={@films.poster_url} alt="poster">
+   </:item>
+  <:item title="Title"><%= @films.title %></:item>
+  <:item title="Year"><%= @films.year %></:item>
+  <:item title="Plot"><%= @films.plot %></:item>
+  <:item title="Director"><%= @films.director %></:item>
+  <:item title="User Rating">
+    <select title="User rating" onchange="updateHiddenInput(this.value)">
+      <option value="">---</option>
+      <%= for x <- 50..0//-1 do %>
+        <option value={x / 10}> <%= x / 10 %> </option>
+      <% end %>
+    </select>
+  </:item>
+
+</.list>
 <.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:title]} type="text" label="Title" />
-  <.input field={f[:year]} type="number" label="Year" />
-  <.input field={f[:plot]} type="text" label="Plot" />
-  <.input field={f[:director]} type="text" label="Director" />
-  <.input field={f[:user_rating]} type="number" label="User rating" step="any" />
+    <.input type="hidden" field={f[:title]} />
+    <.input type="hidden" field={f[:year]} />
+    <.input type="hidden" field={f[:plot]} />
+    <.input type="hidden" field={f[:director]} />
+    <.input type="hidden" field={f[:poster_url]} />
+    <.input type="hidden" id="form_user_rating" field={f[:user_rating]} />
   <:actions>
-    <.button>Save Films</.button>
+    <.button>Save Rating</.button>
   </:actions>
 </.simple_form>
+<script>
+  function updateHiddenInput(value) {
+    document.getElementById('form_user_rating').value = value;
+  }
+</script>
