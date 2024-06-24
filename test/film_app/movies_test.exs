@@ -119,7 +119,7 @@ defmodule FilmApp.MoviesTest do
   end
 
   describe "film" do
-    alias FilmApp.Movies.Films
+    alias FilmApp.Movies.Film
 
     import FilmApp.MoviesFixtures
 
@@ -136,14 +136,29 @@ defmodule FilmApp.MoviesTest do
     end
 
     test "create_films/1 with valid data creates a films" do
-      valid_attrs = %{title: "some title", year: 42, plot: "some plot", director: "some director", user_rating: 120.5}
+      valid_attrs = %{
+        title: "some title",
+        year: 42,
+        plot: "some plot",
+        director: "some director",
+        user_rating: 120.5,
+        poster_url: "someposter.url",
+        actors: "some actors",
+        imdb_id: "some id"
+      }
 
-      assert {:ok, %Films{} = films} = Movies.create_films(valid_attrs)
+      assert {:ok, %Film{} = films} = Movies.create_films(valid_attrs)
       assert films.title == "some title"
       assert films.year == 42
       assert films.plot == "some plot"
       assert films.director == "some director"
       assert films.user_rating == 120.5
+      assert films.poster_url == "someposter.url"
+      assert films.actors == "some actors"
+      assert films.imdb_id == "some id"
+
+
+
     end
 
     test "create_films/1 with invalid data returns error changeset" do
@@ -154,7 +169,7 @@ defmodule FilmApp.MoviesTest do
       films = films_fixture()
       update_attrs = %{title: "some updated title", year: 43, plot: "some updated plot", director: "some updated director", user_rating: 456.7}
 
-      assert {:ok, %Films{} = films} = Movies.update_films(films, update_attrs)
+      assert {:ok, %Film{} = films} = Movies.update_films(films, update_attrs)
       assert films.title == "some updated title"
       assert films.year == 43
       assert films.plot == "some updated plot"
@@ -170,7 +185,7 @@ defmodule FilmApp.MoviesTest do
 
     test "delete_film/1 deletes the films" do
       films = films_fixture()
-      assert {:ok, %Films{}} = Movies.delete_film(films)
+      assert {:ok, %Film{}} = Movies.delete_film(films)
       assert_raise Ecto.NoResultsError, fn -> Movies.get_films!(films.id) end
     end
 

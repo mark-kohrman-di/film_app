@@ -17,7 +17,7 @@
   <:item title="Director"><%= @films.director %></:item>
   <:item title="User Rating">
     <select title="User rating" onchange="updateHiddenInput(this.value)">
-      <option value="">---</option>
+      <option value="-1.0">---</option>
       <%= for x <- 50..0//-1 do %>
         <option value={x / 10}> <%= x / 10 %> </option>
       <% end %>

@@ -21,7 +21,7 @@ defmodule FilmAppWeb.SearchesController do
   end
 
   def search(conn, %{"searches" => searches_params}) do
-    url = "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&s=#{searches_params["title"]}"
+    url = "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&s=#{searches_params["title"]}&type=movie"
 
     encoded_url = String.replace(url, " ", "%20")
 
@@ -40,7 +40,7 @@ defmodule FilmAppWeb.SearchesController do
 
   @spec normalize_searches(nil | maybe_improper_list() | map()) :: list()
   def normalize_searches(body) do
-    coming_soon_url = "https://user-images.githubusercontent.com/6929121/87441911-486bf600-c611-11ea-9d45-94c215733cf7.png"
+    coming_soon_url = "https://i.ibb.co/nbJHbhZ/no-image-available.png"
     films = Enum.map(body["Search"], fn movie ->
 
       poster_url = if movie["Poster"] == "N/A", do: coming_soon_url, else: movie["Poster"]

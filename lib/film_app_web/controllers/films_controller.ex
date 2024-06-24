@@ -16,22 +16,22 @@ defmodule FilmAppWeb.FilmsController do
         {:ok, body |> Jason.decode!()}
         decoded_body = body |> Jason.decode!()
 
-        normalized = normalize_films(decoded_body)
+        normalized_films = normalize_films(decoded_body)
 
         changeset = Movies.change_film(
           %Film{
-            title: normalized.title,
-            year: normalized.year,
-            plot: normalized.plot,
-            director: normalized.director,
-            poster_url: normalized.poster_url,
-            user_rating: normalized.user_rating,
-            actors: normalized.actors,
-            imdb_id: normalized.imdb_id
+            title: normalized_films.title,
+            year: normalized_films.year,
+            plot: normalized_films.plot,
+            director: normalized_films.director,
+            poster_url: normalized_films.poster_url,
+            user_rating: normalized_films.user_rating,
+            actors: normalized_films.actors,
+            imdb_id: normalized_films.imdb_id
           }
         )
 
-        render(conn, :new, films: normalized, changeset: changeset)
+        render(conn, :new, films: normalized_films, changeset: changeset)
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
         {:error, "Received non-200 response: #{status_code}"}
       {:error, %HTTPoison.Error{reason: reason}} ->
@@ -40,14 +40,23 @@ defmodule FilmAppWeb.FilmsController do
   end
 
   def create(conn, %{"film" => films_params}) do
-    case Movies.create_films(films_params) do
-      {:ok, films} ->
+    user_rating = String.to_float(films_params["user_rating"])
+    case user_rating do
+      rating when rating < 0 ->
         conn
-        |> put_flash(:info, "Films created successfully.")
-        |> redirect(to: ~p"/film/#{films}")
+        |> put_flash(:error, "Error, please select a valid rating.")
+        |> redirect(to: ~p"/film/new/#{films_params["imdb_id"]}")
+      rating when rating >= 0 ->
+        case Movies.create_films(films_params) do
+        {:ok, films} ->
+          conn
+          |> put_flash(:info, "Rating saved successfully.")
+          |> redirect(to: ~p"/film/#{films}")
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        {:error, %Ecto.Changeset{} = changeset} ->
+          render(conn, :new, changeset: changeset)
+      end
+
     end
   end
 
@@ -65,7 +74,7 @@ defmodule FilmAppWeb.FilmsController do
         plot: body["Plot"],
         director: body["Director"],
         poster_url: body["Poster"],
-        user_rating: 0,
+        user_rating: -1.0,
         actors: body["Actors"],
         imdb_id: body["imdbID"]
        }
