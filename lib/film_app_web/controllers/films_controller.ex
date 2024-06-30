@@ -1,6 +1,7 @@
 defmodule FilmAppWeb.FilmsController do
   use FilmAppWeb, :controller
 
+  alias FilmApp.Repo
   alias FilmApp.Movies
   alias FilmApp.Movies.Film
 
@@ -17,9 +18,6 @@ defmodule FilmAppWeb.FilmsController do
         decoded_body = body |> Jason.decode!()
         user_id = conn.assigns.current_user.id
         normalized_films = normalize_films(decoded_body, user_id)
-        IO.inspect(user_id)
-IO.inspect(normalized_films)
-IO.inspect(normalized_films.user_id)
 
         changeset = Movies.change_film(
           %Film{
@@ -50,16 +48,29 @@ IO.inspect(normalized_films.user_id)
         conn
         |> put_flash(:error, "Error, please select a valid rating.")
         |> redirect(to: ~p"/film/new/#{films_params["imdb_id"]}")
-      rating when rating >= 0 ->
-        case Movies.create_films(films_params) do
-        {:ok, films} ->
-          conn
-          |> put_flash(:info, "Rating saved successfully.")
-          |> redirect(to: ~p"/film/#{films}")
+        rating when rating >= 0 ->
+          user_id = films_params["user_id"]
+          imdb_id = films_params["imdb_id"]
 
-        {:error, %Ecto.Changeset{} = changeset} ->
-          render(conn, :new, changeset: changeset)
-      end
+          existing_film = Repo.get_by(Film, user_id: user_id, imdb_id: imdb_id)
+
+          case existing_film do
+            nil ->
+              case Movies.create_films(films_params) do
+                {:ok, films} ->
+                  conn
+                  |> put_flash(:info, "Rating saved successfully.")
+                  |> redirect(to: ~p"/film/#{films}")
+
+                {:error, %Ecto.Changeset{} = changeset} ->
+                  render(conn, :new, changeset: changeset)
+              end
+
+            _film ->
+              conn
+              |> put_flash(:error, "Error, this film has already been rated by you.")
+              |> redirect(to: ~p"/film/new/#{imdb_id}")
+          end
     end
   end
 
