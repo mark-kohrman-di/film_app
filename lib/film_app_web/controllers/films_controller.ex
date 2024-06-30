@@ -15,8 +15,11 @@ defmodule FilmAppWeb.FilmsController do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body |> Jason.decode!()}
         decoded_body = body |> Jason.decode!()
-
-        normalized_films = normalize_films(decoded_body)
+        user_id = conn.assigns.current_user.id
+        normalized_films = normalize_films(decoded_body, user_id)
+        IO.inspect(user_id)
+IO.inspect(normalized_films)
+IO.inspect(normalized_films.user_id)
 
         changeset = Movies.change_film(
           %Film{
@@ -27,7 +30,8 @@ defmodule FilmAppWeb.FilmsController do
             poster_url: normalized_films.poster_url,
             user_rating: normalized_films.user_rating,
             actors: normalized_films.actors,
-            imdb_id: normalized_films.imdb_id
+            imdb_id: normalized_films.imdb_id,
+            user_id: normalized_films.user_id
           }
         )
 
@@ -56,7 +60,6 @@ defmodule FilmAppWeb.FilmsController do
         {:error, %Ecto.Changeset{} = changeset} ->
           render(conn, :new, changeset: changeset)
       end
-
     end
   end
 
@@ -66,7 +69,7 @@ defmodule FilmAppWeb.FilmsController do
   end
 
 
-  def normalize_films(body) do
+  def normalize_films(body, user_id) do
     films = %Film{
         id: body["imdbID"],
         title: body["Title"],
@@ -76,7 +79,8 @@ defmodule FilmAppWeb.FilmsController do
         poster_url: body["Poster"],
         user_rating: -1.0,
         actors: body["Actors"],
-        imdb_id: body["imdbID"]
+        imdb_id: body["imdbID"],
+        user_id: user_id
        }
 
     films

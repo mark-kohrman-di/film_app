@@ -11,6 +11,7 @@ defmodule FilmApp.Movies.Film do
     field :poster_url, :string
     field :actors, :string
     field :imdb_id, :string
+    field :user_id, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -18,7 +19,7 @@ defmodule FilmApp.Movies.Film do
   @doc false
   def changeset(film, attrs) do
     film
-    |> cast(attrs, [:title, :year, :plot, :director, :user_rating, :poster_url, :actors, :imdb_id])
+    |> cast(attrs, [:title, :year, :plot, :director, :user_rating, :poster_url, :actors, :imdb_id, :user_id])
     |> validate_required([:title, :year, :plot, :director, :user_rating])
   end
 end
