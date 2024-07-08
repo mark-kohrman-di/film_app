@@ -1,6 +1,6 @@
 defmodule FilmApp.Repo.Migrations.CreateFilms do
   use Ecto.Migration
-#todo change table to films
+  # todo change table to films
   def change do
     create table(:films) do
       add :title, :string

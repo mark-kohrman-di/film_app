@@ -3,8 +3,18 @@ defmodule FilmAppWeb.TitlesControllerTest do
 
   import FilmApp.MoviesFixtures
 
-  @create_attrs %{name: "some name", description: "some description", year: 42, rating: "some rating"}
-  @update_attrs %{name: "some updated name", description: "some updated description", year: 43, rating: "some updated rating"}
+  @create_attrs %{
+    name: "some name",
+    description: "some description",
+    year: 42,
+    rating: "some rating"
+  }
+  @update_attrs %{
+    name: "some updated name",
+    description: "some updated description",
+    year: 43,
+    rating: "some updated rating"
+  }
   @invalid_attrs %{name: nil, description: nil, year: nil, rating: nil}
 
   describe "index" do

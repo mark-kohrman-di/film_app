@@ -10,14 +10,13 @@
 
 <.list>
   <:item title="">
-      <img src={@films.poster_url} alt="poster">
-   </:item>
+    <img src={@films.poster_url} alt="poster" />
+  </:item>
   <:item title="Title"><%= @films.title %></:item>
   <:item title="Year"><%= @films.year %></:item>
   <:item title="Plot"><%= @films.plot %></:item>
   <:item title="Director"><%= @films.director %></:item>
   <:item title="User Rating"><%= @films.user_rating %></:item>
 </.list>
-
 
 <.back navigate={~p"/film"}>Back to film</.back>

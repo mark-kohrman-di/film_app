@@ -31,7 +31,6 @@ defmodule FilmAppWeb.Router do
     put "/title/:id", TitlesController, :update
     delete "/title/:id", TitlesController, :delete
 
-
     get "/actors", ActorsController, :index
     get "/actor", ActorsController, :index
     get "/actor/new", ActorsController, :new
@@ -40,7 +39,6 @@ defmodule FilmAppWeb.Router do
     get "/actor/:id/edit", ActorsController, :edit
     put "/actor/:id", ActorsController, :update
     delete "/actor/:id", ActorsController, :delete
-
 
     get "/directors", DirectorsController, :index
     get "/director", DirectorsController, :index

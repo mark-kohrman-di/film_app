@@ -21,7 +21,8 @@ defmodule FilmAppWeb.SearchesController do
   end
 
   def search(conn, %{"searches" => searches_params}) do
-    url = "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&s=#{searches_params["title"]}&type=movie"
+    url =
+      "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&s=#{searches_params["title"]}&type=movie"
 
     encoded_url = String.replace(url, " ", "%20")
 
@@ -31,8 +32,10 @@ defmodule FilmAppWeb.SearchesController do
         decoded_body = body |> Jason.decode!()
         normalized = normalize_searches(decoded_body)
         index_searches(conn, normalized)
+
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
         {:error, "Received non-200 response: #{status_code}"}
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, "Request failed: #{reason}"}
     end
@@ -41,17 +44,18 @@ defmodule FilmAppWeb.SearchesController do
   @spec normalize_searches(nil | maybe_improper_list() | map()) :: list()
   def normalize_searches(body) do
     coming_soon_url = "https://i.ibb.co/nbJHbhZ/no-image-available.png"
-    films = Enum.map(body["Search"], fn movie ->
 
-      poster_url = if movie["Poster"] == "N/A", do: coming_soon_url, else: movie["Poster"]
+    films =
+      Enum.map(body["Search"], fn movie ->
+        poster_url = if movie["Poster"] == "N/A", do: coming_soon_url, else: movie["Poster"]
 
-       %FilmApp.Movies.Searches{
-        id: movie["imdbID"],
-        title: movie["Title"],
-        year: movie["Year"],
-        poster_url: poster_url,
-       }
-    end)
+        %FilmApp.Movies.Searches{
+          id: movie["imdbID"],
+          title: movie["Title"],
+          year: movie["Year"],
+          poster_url: poster_url
+        }
+      end)
 
     films
   end

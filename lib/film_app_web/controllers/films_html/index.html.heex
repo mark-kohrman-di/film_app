@@ -9,8 +9,14 @@
 
 <.table id="film" rows={@film} row_click={&JS.navigate(~p"/film/#{&1}")}>
   <:col :let={films} label="Poster">
-    <img src={films.poster_url} alt="%= films.title %> poster" style="max-width: 400px; max-height: 200px;">
-  </:col>  <:col :let={films} label="Title"><%= films.title %></:col>
+    <img
+      src={films.poster_url}
+      alt="%= films.title %> poster"
+      style="max-width: 400px; max-height: 200px;"
+    />
+  </:col>
+  
+  <:col :let={films} label="Title"><%= films.title %></:col>
   <:col :let={films} label="Year"><%= films.year %></:col>
   <:col :let={films} label="Director"><%= films.director %></:col>
   <:col :let={films} label="User rating"><%= films.user_rating %></:col>

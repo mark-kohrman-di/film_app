@@ -12,6 +12,7 @@ defmodule FilmAppWeb.FilmsController do
 
   def new(conn, %{"id" => id}) do
     url = "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&i=#{id}"
+
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body |> Jason.decode!()}
@@ -19,8 +20,8 @@ defmodule FilmAppWeb.FilmsController do
         user_id = conn.assigns.current_user.id
         normalized_films = normalize_films(decoded_body, user_id)
 
-        changeset = Movies.change_film(
-          %Film{
+        changeset =
+          Movies.change_film(%Film{
             title: normalized_films.title,
             year: normalized_films.year,
             plot: normalized_films.plot,
@@ -30,12 +31,13 @@ defmodule FilmAppWeb.FilmsController do
             actors: normalized_films.actors,
             imdb_id: normalized_films.imdb_id,
             user_id: normalized_films.user_id
-          }
-        )
+          })
 
         render(conn, :new, films: normalized_films, changeset: changeset)
+
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
         {:error, "Received non-200 response: #{status_code}"}
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, "Request failed: #{reason}"}
     end
@@ -49,27 +51,16 @@ defmodule FilmAppWeb.FilmsController do
         |> put_flash(:error, "Error, please select a valid rating.")
         |> redirect(to: ~p"/film/new/#{films_params["imdb_id"]}")
         rating when rating >= 0 ->
-          user_id = films_params["user_id"]
-          imdb_id = films_params["imdb_id"]
-
-          existing_film = Repo.get_by(Film, user_id: user_id, imdb_id: imdb_id)
-
-          case existing_film do
-            nil ->
-              case Movies.create_films(films_params) do
-                {:ok, films} ->
-                  conn
-                  |> put_flash(:info, "Rating saved successfully.")
-                  |> redirect(to: ~p"/film/#{films}")
-
-                {:error, %Ecto.Changeset{} = changeset} ->
-                  render(conn, :new, changeset: changeset)
-              end
-
-            _film ->
+          case Movies.create_films(films_params) do
+            {:ok, films} ->
               conn
-              |> put_flash(:error, "Error, this film has already been rated by you.")
-              |> redirect(to: ~p"/film/new/#{imdb_id}")
+              |> put_flash(:info, "Rating saved successfully.")
+              |> redirect(to: ~p"/film/#{films}")
+
+            {:error, %Ecto.Changeset{} = _} ->
+              conn
+              |> put_flash(:error, "Error, this film has already been rated.")
+              |> redirect(to: ~p"/film/new/#{films_params["imdb_id"]}")
           end
     end
   end
@@ -79,20 +70,19 @@ defmodule FilmAppWeb.FilmsController do
     render(conn, :show, films: films)
   end
 
-
   def normalize_films(body, user_id) do
     films = %Film{
-        id: body["imdbID"],
-        title: body["Title"],
-        year: body["Year"],
-        plot: body["Plot"],
-        director: body["Director"],
-        poster_url: body["Poster"],
-        user_rating: -1.0,
-        actors: body["Actors"],
-        imdb_id: body["imdbID"],
-        user_id: user_id
-       }
+      id: body["imdbID"],
+      title: body["Title"],
+      year: body["Year"],
+      plot: body["Plot"],
+      director: body["Director"],
+      poster_url: body["Poster"],
+      user_rating: -1.0,
+      actors: body["Actors"],
+      imdb_id: body["imdbID"],
+      user_id: user_id
+    }
 
     films
   end

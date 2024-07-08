@@ -3,8 +3,20 @@ defmodule FilmAppWeb.FilmsControllerTest do
 
   import FilmApp.MoviesFixtures
 
-  @create_attrs %{title: "some title", year: 42, plot: "some plot", director: "some director", user_rating: 120.5}
-  @update_attrs %{title: "some updated title", year: 43, plot: "some updated plot", director: "some updated director", user_rating: 456.7}
+  @create_attrs %{
+    title: "some title",
+    year: 42,
+    plot: "some plot",
+    director: "some director",
+    user_rating: 120.5
+  }
+  @update_attrs %{
+    title: "some updated title",
+    year: 43,
+    plot: "some updated plot",
+    director: "some updated director",
+    user_rating: 456.7
+  }
   @invalid_attrs %{title: nil, year: nil, plot: nil, director: nil, user_rating: nil}
 
   describe "index" do

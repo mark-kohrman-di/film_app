@@ -21,7 +21,14 @@ defmodule FilmApp.UsersTest do
     end
 
     test "create_rating/1 with valid data creates a rating" do
-      valid_attrs = %{title: "some title", year: 42, rating: 120.5, plot: "some plot", actors: "some actors", director: "some director"}
+      valid_attrs = %{
+        title: "some title",
+        year: 42,
+        rating: 120.5,
+        plot: "some plot",
+        actors: "some actors",
+        director: "some director"
+      }
 
       assert {:ok, %Rating{} = rating} = Users.create_rating(valid_attrs)
       assert rating.title == "some title"
@@ -38,7 +45,15 @@ defmodule FilmApp.UsersTest do
 
     test "update_rating/2 with valid data updates the rating" do
       rating = rating_fixture()
-      update_attrs = %{title: "some updated title", year: 43, rating: 456.7, plot: "some updated plot", actors: "some updated actors", director: "some updated director"}
+
+      update_attrs = %{
+        title: "some updated title",
+        year: 43,
+        rating: 456.7,
+        plot: "some updated plot",
+        actors: "some updated actors",
+        director: "some updated director"
+      }
 
       assert {:ok, %Rating{} = rating} = Users.update_rating(rating, update_attrs)
       assert rating.title == "some updated title"

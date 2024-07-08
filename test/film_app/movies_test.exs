@@ -21,7 +21,12 @@ defmodule FilmApp.MoviesTest do
     end
 
     test "create_titles/1 with valid data creates a titles" do
-      valid_attrs = %{name: "some name", description: "some description", year: 42, rating: "some rating"}
+      valid_attrs = %{
+        name: "some name",
+        description: "some description",
+        year: 42,
+        rating: "some rating"
+      }
 
       assert {:ok, %Titles{} = titles} = Movies.create_titles(valid_attrs)
       assert titles.name == "some name"
@@ -36,7 +41,13 @@ defmodule FilmApp.MoviesTest do
 
     test "update_titles/2 with valid data updates the titles" do
       titles = titles_fixture()
-      update_attrs = %{name: "some updated name", description: "some updated description", year: 43, rating: "some updated rating"}
+
+      update_attrs = %{
+        name: "some updated name",
+        description: "some updated description",
+        year: 43,
+        rating: "some updated rating"
+      }
 
       assert {:ok, %Titles{} = titles} = Movies.update_titles(titles, update_attrs)
       assert titles.name == "some updated name"
@@ -62,7 +73,6 @@ defmodule FilmApp.MoviesTest do
       assert %Ecto.Changeset{} = Movies.change_titles(titles)
     end
   end
-
 
   describe "search" do
     alias FilmApp.Movies.Searches
@@ -156,9 +166,6 @@ defmodule FilmApp.MoviesTest do
       assert films.poster_url == "someposter.url"
       assert films.actors == "some actors"
       assert films.imdb_id == "some id"
-
-
-
     end
 
     test "create_films/1 with invalid data returns error changeset" do
@@ -167,7 +174,14 @@ defmodule FilmApp.MoviesTest do
 
     test "update_films/2 with valid data updates the films" do
       films = films_fixture()
-      update_attrs = %{title: "some updated title", year: 43, plot: "some updated plot", director: "some updated director", user_rating: 456.7}
+
+      update_attrs = %{
+        title: "some updated title",
+        year: 43,
+        plot: "some updated plot",
+        director: "some updated director",
+        user_rating: 456.7
+      }
 
       assert {:ok, %Film{} = films} = Movies.update_films(films, update_attrs)
       assert films.title == "some updated title"

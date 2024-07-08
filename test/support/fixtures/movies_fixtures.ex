@@ -21,7 +21,6 @@ defmodule FilmApp.MoviesFixtures do
     titles
   end
 
-
   @doc """
   Generate a searches.
   """

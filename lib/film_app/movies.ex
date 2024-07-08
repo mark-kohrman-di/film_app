@@ -245,9 +245,13 @@ defmodule FilmApp.Movies do
 
   """
   def create_films(attrs \\ %{}) do
+    IO.inspect("attrs in MOVIE")
+    IO.inspect(attrs)
+    IO.inspect("attrs in MOVIE")
     %Film{}
     |> Film.changeset(attrs)
     |> Repo.insert()
+
   end
 
   @doc """

@@ -7,5 +7,4 @@ defmodule FilmApp.Repo.Migrations.FilmsAddImdbIdAndActors do
       add :imdb_id, :string
     end
   end
-
 end

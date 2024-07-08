@@ -11,7 +11,11 @@
   <:col :let={searches} label="Title"><%= searches.title %></:col>
   <:col :let={searches} label="Year"><%= searches.year %></:col>
   <:col :let={searches} label="Poster">
-    <img src={searches.poster_url} alt="%= searches.title %> poster" style="max-width: 400px; max-height: 200px;">
+    <img
+      src={searches.poster_url}
+      alt="%= searches.title %> poster"
+      style="max-width: 400px; max-height: 200px;"
+    />
   </:col>
   <:action :let={searches}>
     <div class="sr-only">

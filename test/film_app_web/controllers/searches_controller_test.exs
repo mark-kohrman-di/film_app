@@ -3,8 +3,16 @@ defmodule FilmAppWeb.SearchesControllerTest do
 
   import FilmApp.MoviesFixtures
 
-  @create_attrs %{title: "some title", director: "some director", release_year: "some release_year"}
-  @update_attrs %{title: "some updated title", director: "some updated director", release_year: "some updated release_year"}
+  @create_attrs %{
+    title: "some title",
+    director: "some director",
+    release_year: "some release_year"
+  }
+  @update_attrs %{
+    title: "some updated title",
+    director: "some updated director",
+    release_year: "some updated release_year"
+  }
   @invalid_attrs %{title: nil, director: nil, release_year: nil}
 
   describe "index" do

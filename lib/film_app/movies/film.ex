@@ -1,7 +1,7 @@
 defmodule FilmApp.Movies.Film do
   use Ecto.Schema
   import Ecto.Changeset
-  #todo change module name to film, schema to films
+  # todo change module name to film, schema to films
   schema "films" do
     field :title, :string
     field :year, :integer
@@ -18,8 +18,25 @@ defmodule FilmApp.Movies.Film do
 
   @doc false
   def changeset(film, attrs) do
+    IO.inspect("film and ATTRS")
+
+    IO.inspect(film)
+    IO.inspect(attrs)
+    IO.inspect("film and ATTRS")
+
     film
-    |> cast(attrs, [:title, :year, :plot, :director, :user_rating, :poster_url, :actors, :imdb_id, :user_id])
+    |> cast(attrs, [
+      :title,
+      :year,
+      :plot,
+      :director,
+      :user_rating,
+      :poster_url,
+      :actors,
+      :imdb_id,
+      :user_id
+    ])
+    |> unique_constraint([:user_id, :imdb_id])
     |> validate_required([:title, :year, :plot, :director, :user_rating])
   end
 end
