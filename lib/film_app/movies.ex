@@ -147,10 +147,6 @@ defmodule FilmApp.Movies do
 
   """
   def create_searches(attrs \\ %{}) do
-    IO.inspect("in create searches")
-    IO.inspect(attrs)
-    IO.inspect("in create searches")
-
     %Searches{}
     |> Searches.changeset(attrs)
     |> Repo.insert()
@@ -245,9 +241,6 @@ defmodule FilmApp.Movies do
 
   """
   def create_films(attrs \\ %{}) do
-    IO.inspect("attrs in MOVIE")
-    IO.inspect(attrs)
-    IO.inspect("attrs in MOVIE")
     %Film{}
     |> Film.changeset(attrs)
     |> Repo.insert()

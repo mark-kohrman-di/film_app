@@ -18,12 +18,6 @@ defmodule FilmApp.Movies.Film do
 
   @doc false
   def changeset(film, attrs) do
-    IO.inspect("film and ATTRS")
-
-    IO.inspect(film)
-    IO.inspect(attrs)
-    IO.inspect("film and ATTRS")
-
     film
     |> cast(attrs, [
       :title,
