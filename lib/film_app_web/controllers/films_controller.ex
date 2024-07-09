@@ -17,7 +17,7 @@ defmodule FilmAppWeb.FilmsController do
     film_query = from(f in Film, where: f.user_id == ^current_user_id)
     films = Repo.all(film_query)
 
-    render(conn, :index_my_films, film: films)
+    render(conn, :index_user_films, film: films)
   end
 
 
