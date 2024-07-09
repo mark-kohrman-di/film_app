@@ -6,29 +6,21 @@
     </.link>
   </:actions>
 </.header>
-
-<.table id="film" rows={@film} row_click={&JS.navigate(~p"/film/#{&1}")}>
-  <:col :let={films} label="Poster">
-    <img
-      src={films.poster_url}
-      alt="%= films.title %> poster"
-      style="max-width: 400px; max-height: 200px;"
-    />
-  </:col>
-  
-  <:col :let={films} label="Title"><%= films.title %></:col>
-  <:col :let={films} label="Year"><%= films.year %></:col>
-  <:col :let={films} label="Director"><%= films.director %></:col>
-  <:col :let={films} label="User rating"><%= films.user_rating %></:col>
-  <:action :let={films}>
-    <div class="sr-only">
-      <.link navigate={~p"/film/#{films}"}>Show</.link>
-    </div>
-    <.link navigate={~p"/film/#{films}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={films}>
-    <.link href={~p"/film/#{films}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
-</.table>
+<%= for {user_email, films} <- Enum.group_by(@film, & &1.user_email) do %>
+    <h1 style="font-size: 150%; padding-top: 10%;"> <b><%= user_email %></b></h1>
+    <.table id="film" rows={films} row_click={&JS.navigate(~p"/film/#{&1}")}>
+      <:col :let={film} label="Movie">
+        <img
+          src={film.poster_url}
+          alt="%= film.title %> poster"
+          style="max-width: 400px; max-height: 200px;"
+        />
+        <p><%= film.title %> (<%= film.year %>)</p>
+        <p>Director: <%= film.director %> </p>
+        <p>Rating: <%= film.user_rating %> </p>
+        <div class="sr-only">
+          <.link navigate={~p"/film/#{film}"}>Show</.link>
+        </div>
+      </:col>
+    </.table>
+<% end %>

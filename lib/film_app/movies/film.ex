@@ -12,6 +12,7 @@ defmodule FilmApp.Movies.Film do
     field :actors, :string
     field :imdb_id, :string
     field :user_id, :string
+    field :user_email, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -28,7 +29,8 @@ defmodule FilmApp.Movies.Film do
       :poster_url,
       :actors,
       :imdb_id,
-      :user_id
+      :user_id,
+      :user_email
     ])
     |> unique_constraint([:user_id, :imdb_id])
     |> validate_required([:title, :year, :plot, :director, :user_rating])

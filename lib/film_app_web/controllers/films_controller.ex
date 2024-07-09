@@ -18,7 +18,9 @@ defmodule FilmAppWeb.FilmsController do
         {:ok, body |> Jason.decode!()}
         decoded_body = body |> Jason.decode!()
         user_id = conn.assigns.current_user.id
-        normalized_films = normalize_films(decoded_body, user_id)
+        user_email = conn.assigns.current_user.email
+
+        normalized_films = normalize_films(decoded_body, user_id, user_email)
 
         changeset =
           Movies.change_film(%Film{
@@ -30,7 +32,8 @@ defmodule FilmAppWeb.FilmsController do
             user_rating: normalized_films.user_rating,
             actors: normalized_films.actors,
             imdb_id: normalized_films.imdb_id,
-            user_id: normalized_films.user_id
+            user_id: normalized_films.user_id,
+            user_email: normalized_films.user_email
           })
 
         render(conn, :new, films: normalized_films, changeset: changeset)
@@ -70,7 +73,7 @@ defmodule FilmAppWeb.FilmsController do
     render(conn, :show, films: films)
   end
 
-  def normalize_films(body, user_id) do
+  def normalize_films(body, user_id, user_email) do
     films = %Film{
       id: body["imdbID"],
       title: body["Title"],
@@ -81,7 +84,8 @@ defmodule FilmAppWeb.FilmsController do
       user_rating: -1.0,
       actors: body["Actors"],
       imdb_id: body["imdbID"],
-      user_id: user_id
+      user_id: user_id,
+      user_email: user_email
     }
 
     films
