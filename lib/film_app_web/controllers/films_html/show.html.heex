@@ -2,7 +2,7 @@
   <%= @films.title %>
   <:subtitle>Saved rating below.</:subtitle>
   <:actions>
-    <.link href={~p"/film/#{@films}/edit"}>
+    <.link href={~p"/film/#{@films.id}/edit"}>
       <.button>Edit rating</.button>
     </.link>
   </:actions>

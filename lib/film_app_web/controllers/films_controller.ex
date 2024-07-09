@@ -10,6 +10,17 @@ defmodule FilmAppWeb.FilmsController do
     render(conn, :index, film: film)
   end
 
+  def index_user_films(conn, _params) do
+    import Ecto.Query, only: [from: 2]
+
+    current_user_id = Integer.to_string(conn.assigns.current_user.id)
+    film_query = from(f in Film, where: f.user_id == ^current_user_id)
+    films = Repo.all(film_query)
+
+    render(conn, :index_my_films, film: films)
+  end
+
+
   def new(conn, %{"id" => id}) do
     url = "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&i=#{id}"
 
@@ -93,6 +104,7 @@ defmodule FilmAppWeb.FilmsController do
 
   def edit(conn, %{"id" => id}) do
     films = Movies.get_films!(id)
+    IO.inspect(films)
     changeset = Movies.change_film(films)
     render(conn, :edit, films: films, changeset: changeset)
   end

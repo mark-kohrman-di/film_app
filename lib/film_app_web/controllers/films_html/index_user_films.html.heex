@@ -1,5 +1,5 @@
 <.header>
-  All Ratings
+  My Ratings
   <:actions>
     <.link href={~p"/search/new"}>
       <.button>Search Films</.button>
@@ -8,7 +8,7 @@
 </.header>
 <%= for {user_email, films} <- Enum.group_by(@film, & &1.user_email) do %>
     <.table id="film" rows={films} row_click={&JS.navigate(~p"/film/#{&1}")}>
-      <:col :let={film} label={"#{user_email} Ratings"}>
+      <:col :let={film} label="Movie">
         <img
           src={film.poster_url}
           alt="%= film.title %> poster"
