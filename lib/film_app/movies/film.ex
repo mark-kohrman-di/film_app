@@ -33,6 +33,6 @@ defmodule FilmApp.Movies.Film do
       :user_email
     ])
     |> unique_constraint([:user_id, :imdb_id])
-    |> validate_required([:title, :year, :plot, :director, :user_rating])
+    |> validate_required([:title, :year, :plot, :director, :user_rating, :user_id])
   end
 end

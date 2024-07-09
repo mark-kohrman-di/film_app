@@ -23,11 +23,12 @@ defmodule FilmAppWeb.FilmsController do
 
   def new(conn, %{"id" => id}) do
     url = "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&i=#{id}"
-
+    validate_user(conn)
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body |> Jason.decode!()}
         decoded_body = body |> Jason.decode!()
+
         user_id = conn.assigns.current_user.id
         user_email = conn.assigns.current_user.email
 
@@ -103,13 +104,14 @@ defmodule FilmAppWeb.FilmsController do
   end
 
   def edit(conn, %{"id" => id}) do
-    films = Movies.get_films!(id)
-    IO.inspect(films)
-    changeset = Movies.change_film(films)
-    render(conn, :edit, films: films, changeset: changeset)
+    film = Movies.get_films!(id)
+    validate_user(conn, film.user_id)
+
+    changeset = Movies.change_film(film)
+    render(conn, :edit, films: film, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "films" => films_params}) do
+  def update(conn, %{"id" => id, "film" => films_params}) do
     films = Movies.get_films!(id)
 
     case Movies.update_films(films, films_params) do
@@ -130,5 +132,28 @@ defmodule FilmAppWeb.FilmsController do
     conn
     |> put_flash(:info, "Films deleted successfully.")
     |> redirect(to: ~p"/film")
+  end
+
+  def validate_user(conn) do
+    case conn.assigns.current_user do
+      user when user != nil ->
+        true
+      user when user == nil ->
+        conn
+        |> put_flash(:error, "Error, please sign up or log in to rate.")
+        |> redirect(to: ~p"/users/log_in")
+      end
+  end
+
+  def validate_user(conn, film_user_id) do
+    current_user_id = Integer.to_string(conn.assigns.current_user.id)
+    case current_user_id do
+      id when id == film_user_id ->
+        true
+      id when id != film_user_id ->
+        conn
+        |> put_flash(:error, "Error, you can only edit your own ratings.")
+        |> redirect(to: ~p"/films/user")
+      end
   end
 end

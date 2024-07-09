@@ -1,8 +1,7 @@
 <.header>
-  Edit Films <%= @films.id %>
-  <:subtitle>Use this form to manage films records in your database.</:subtitle>
+  <:subtitle>Edit </:subtitle>
 </.header>
 
-<.films_form changeset={@changeset} action={~p"/film/#{@films}"} />
+<.films_form changeset={@changeset} films={@films} action={~p"/film/#{@films}"} />
 
 <.back navigate={~p"/film"}>Back to film</.back>
