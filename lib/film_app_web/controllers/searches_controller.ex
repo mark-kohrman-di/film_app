@@ -30,6 +30,11 @@ defmodule FilmAppWeb.SearchesController do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body |> Jason.decode!()}
         decoded_body = body |> Jason.decode!()
+        if decoded_body["Error"] == "Movie not found!" do
+          conn
+          |> put_flash(:error, "Error, movie not found, please try again.")
+          |> redirect(to: ~p"/search/new")
+        end
         normalized = normalize_searches(decoded_body)
         index_searches(conn, normalized)
 
