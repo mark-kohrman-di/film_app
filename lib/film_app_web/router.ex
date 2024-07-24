@@ -59,6 +59,7 @@ defmodule FilmAppWeb.Router do
     delete "/search/:id", SearchesController, :delete
 
     get "/films", FilmsController, :index
+    get "/films-by-title", FilmsController, :index_by_title
     get "/films/user", FilmsController, :index_user_films
 
     get "/film", FilmsController, :index

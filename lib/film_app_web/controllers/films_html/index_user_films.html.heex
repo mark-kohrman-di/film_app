@@ -7,8 +7,8 @@
   </:actions>
 </.header>
 <%= for {user_email, films} <- Enum.group_by(@film, & &1.user_email) do %>
-    <.table id="film" rows={films} row_click={&JS.navigate(~p"/film/#{&1}")}>
-      <:col :let={film} label="Movie">
+    <.list_table id="film" rows={films} row_click={&JS.navigate(~p"/film/#{&1}")}>
+      <:col :let={film} label="Movies">
         <img
           src={film.poster_url}
           alt="%= film.title %> poster"
@@ -21,5 +21,5 @@
           <.link navigate={~p"/film/#{film}"}>Show</.link>
         </div>
       </:col>
-    </.table>
+    </.list_table>
 <% end %>

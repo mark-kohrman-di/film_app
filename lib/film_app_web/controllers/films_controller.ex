@@ -10,6 +10,11 @@ defmodule FilmAppWeb.FilmsController do
     render(conn, :index, film: film)
   end
 
+  def index_by_title(conn, _params) do
+    film = Movies.list_film()
+    render(conn, :index_by_title, film: film)
+  end
+
   def index_user_films(conn, _params) do
     import Ecto.Query, only: [from: 2]
 

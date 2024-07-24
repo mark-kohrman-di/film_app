@@ -1,16 +1,16 @@
 <.header>
-  All Ratings by User
+Ratings by Movie
   <:actions>
     <.link href={~p"/search/new"}>
       <.button>Search Films</.button>
     </.link>
   </:actions>
 </.header>
-<%= for {user_email, films} <- Enum.group_by(@film, & &1.user_email) do %>
+<%= for {title, films} <- Enum.group_by(@film, & &1.title) do %>
     <.table id="film" rows={films} row_click={&JS.navigate(~p"/film/#{&1}")}>
-      <:header :let={film} label={"Ratings - #{user_email}"}></:header>
+      <:header :let={film} label={"#{title}"}></:header>
 
-      <:col :let={film} label={"Title"}> <%= film.title %> (<%= film.year %>)</:col>
+      <:col :let={film} label={"User"}> <%= film.user_email %></:col>
       <:col :let={film} label={"Rating"}> <%= film.user_rating %> </:col>
 
     </.table>
