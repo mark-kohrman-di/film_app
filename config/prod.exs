@@ -26,3 +26,6 @@ System.get_env("OMDB_API_KEY")
 #   database: "",
 #   ssl: true,
 #   pool_size: 2
+config :film_app, FilmApp.Repo,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
