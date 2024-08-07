@@ -18,3 +18,4 @@ config :logger, level: :info
 
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.
+System.get_env("OMDB_API_KEY")

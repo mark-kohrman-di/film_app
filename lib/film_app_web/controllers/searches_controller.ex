@@ -22,7 +22,7 @@ defmodule FilmAppWeb.SearchesController do
 
   def search(conn, %{"searches" => searches_params}) do
     url =
-      "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&s=#{searches_params["title"]}&type=movie"
+      "http://www.omdbapi.com/?apikey=#{System.get_env("OMDB_API_KEY")}&s=#{searches_params["title"]}&type=movie"
 
     encoded_url = String.replace(url, " ", "%20")
 

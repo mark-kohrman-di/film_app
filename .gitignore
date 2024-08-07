@@ -37,3 +37,6 @@ npm-debug.log
 
 # Ignore secrets.
 /dev/test
+
+# Ignore .env.
+.env

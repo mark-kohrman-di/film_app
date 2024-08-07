@@ -27,7 +27,7 @@ defmodule FilmAppWeb.FilmsController do
 
 
   def new(conn, %{"id" => id}) do
-    url = "http://www.omdbapi.com/?apikey=#{Application.get_env(:film_app, :api_key)}&i=#{id}"
+    url = "http://www.omdbapi.com/?apikey=#{System.get_env("OMDB_API_KEY")}&i=#{id}"
     validate_user(conn)
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
