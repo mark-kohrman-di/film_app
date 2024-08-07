@@ -19,3 +19,10 @@ config :logger, level: :info
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.
 System.get_env("OMDB_API_KEY")
+
+config :film_app, FilmApp.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: {:system, "DATABASE_URL"},
+  database: "",
+  ssl: true,
+  pool_size: 2
