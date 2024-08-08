@@ -22,7 +22,7 @@ end
 
 if config_env() == :prod do
   database_url =
-    System.get_env("DATABASE_URL") ||
+    System.get_env("host") ||
       raise """
       environment variable DATABASE_URL is missing.
       For example: ecto://USER:PASS@HOST/DATABASE
@@ -34,6 +34,9 @@ if config_env() == :prod do
   config :film_app, FilmApp.Repo,
     # ssl: true,
     url: database_url,
+    username: System.get_env("username"),
+    password: System.get_env("password"),
+    database: System.get_env("database"),
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     socket_options: maybe_ipv6,
     omdb_api_key: omdb_api_key
