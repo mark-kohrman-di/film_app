@@ -22,7 +22,7 @@ System.get_env("OMDB_API_KEY")
 
 config :film_app, FilmApp.Repo,
   adapter: Ecto.Adapters.Postgres,
-  url: {System.get_env("DATABASE_URL")},
+  url: {:system, "DATABASE_URL"},
   database: "",
   ssl: true,
   pool_size: 2
