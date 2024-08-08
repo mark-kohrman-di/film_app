@@ -26,13 +26,13 @@ System.get_env("OMDB_API_KEY")
 #   database: "",
 #   ssl: true,
 #   pool_size: 2
-config :film_app, FilmAppWeb.Endpoint,
-  http: [port: {:system, "PORT"}], # Possibly not needed, but doesn't hurt
-  url: [host: System.get_env("APP_NAME") <> ".gigalixirapp.com", port: 443],
-  secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
-  server: true
+# config :film_app, FilmAppWeb.Endpoint,
+#   http: [port: {:system, "PORT"}], # Possibly not needed, but doesn't hurt
+#   url: [host: System.get_env("APP_NAME") <> ".gigalixirapp.com", port: 443],
+#   secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
+#   server: true
 
-config :film_app, FilmApp.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  url: System.get_env("DATABASE_URL"),
-  pool_size: 2 # Free tier db only allows 4 connections. Rolling deploys need pool_size*(n+1) connections where n is the number of app replicas.
+# config :film_app, FilmApp.Repo,
+#   adapter: Ecto.Adapters.Postgres,
+#   url: System.get_env("DATABASE_URL"),
+#   pool_size: 2 # Free tier db only allows 4 connections. Rolling deploys need pool_size*(n+1) connections where n is the number of app replicas.
