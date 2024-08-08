@@ -20,7 +20,7 @@ defmodule FilmAppWeb.Router do
   scope "/", FilmAppWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", SearchesController, :new
 
     get "/titles", TitlesController, :index
     get "/title", TitlesController, :index
