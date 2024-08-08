@@ -20,12 +20,13 @@ config :logger, level: :info
 # of environment variables, is done on config/runtime.exs.
 System.get_env("OMDB_API_KEY")
 
-# config :film_app, FilmApp.Repo,
-#   adapter: Ecto.Adapters.Postgres,
-#   url: {:system, "DATABASE_URL"},
-#   database: "",
-#   ssl: true,
-#   pool_size: 2
+config :film_app, FilmApp.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: {System.get_env("DATABASE_URL")},
+  database: "",
+  ssl: true,
+  pool_size: 2
+
 # config :film_app, FilmAppWeb.Endpoint,
 #   http: [port: {:system, "PORT"}], # Possibly not needed, but doesn't hurt
 #   url: [host: System.get_env("APP_NAME") <> ".gigalixirapp.com", port: 443],
