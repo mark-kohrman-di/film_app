@@ -38,8 +38,8 @@ if config_env() == :prod do
     # password: System.get_env("password"),
     # database: System.get_env("database"),
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
-    socket_options: maybe_ipv6,
-    omdb_api_key: omdb_api_key
+    socket_options: maybe_ipv6
+    # omdb_api_key: omdb_api_key
 
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
