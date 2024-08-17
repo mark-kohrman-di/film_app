@@ -534,6 +534,10 @@ defmodule FilmAppWeb.CoreComponents do
           table-layout: fixed;
           width: 425px;
         }
+
+        .overflow-y-auto {
+          overflow-y: unset;
+        }
       }
     </style>
 
