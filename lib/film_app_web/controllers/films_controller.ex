@@ -18,7 +18,14 @@ defmodule FilmAppWeb.FilmsController do
   def index_user_films(conn, _params) do
     import Ecto.Query, only: [from: 2]
 
+    if conn.assigns.current_user == nil do
+      conn
+      |> put_flash(:error, "Please login to view your ratings.")
+      |> redirect(to: ~p"/users/log_in")
+    end
+
     current_user_id = Integer.to_string(conn.assigns.current_user.id)
+
     film_query = from(f in Film, where: f.user_id == ^current_user_id)
     films = Repo.all(film_query)
 
