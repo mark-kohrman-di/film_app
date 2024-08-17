@@ -529,15 +529,15 @@ defmodule FilmAppWeb.CoreComponents do
       </table>
     </div>
     <style>
-      @media only screen and (max-width: 425px) {
+      @media only screen and (max-width: 500px) {
         #ratings {
           table-layout: fixed;
-          width: 425px;
         }
 
-        .overflow-y-auto {
-          overflow-y: unset;
+        .w-\[40rem\] {
+          width: 30rem;
         }
+
       }
     </style>
 
