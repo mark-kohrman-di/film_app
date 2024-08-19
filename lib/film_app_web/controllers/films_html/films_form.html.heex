@@ -44,6 +44,20 @@
     <.button>Save Rating</.button>
   </:actions>
 </.simple_form>
+
+<style>
+  @media only screen and (max-width: 500px) {
+    .flex.gap-4.py-4.text-sm.leading-6.sm\:gap-8 {
+      display: block;
+      margin: auto;
+    }
+
+    .text-zinc-500 {
+      font-weight: bold;
+      color: black;
+    }
+  }
+</style>
 <script>
   function updateHiddenInput(value) {
     document.getElementById('form_user_rating').value = value;
