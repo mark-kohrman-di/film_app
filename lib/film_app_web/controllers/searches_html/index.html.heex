@@ -1,5 +1,5 @@
 <.header>
-  Listing Search
+  Search Results
   <:actions>
     <.link href={~p"/search/new"}>
       <.button>Search Movies</.button>
@@ -9,18 +9,38 @@
 
 <.table id="search" rows={@search} row_click={&JS.navigate(~p"/film/new/#{&1}")}>
   <:col :let={searches} label="Title"><%= searches.title %></:col>
-  <:col :let={searches} label="Year"><%= searches.year %></:col>
-  <:col :let={searches} label="Poster">
+    <:col :let={searches} label="Year"><%= searches.year %></:col>
+
+  <:col :let={searches} label="Poster" class="poster">
     <img
       src={searches.poster_url}
       alt="%= searches.title %> poster"
-      style="max-width: 400px; max-height: 200px;"
+      style="max-width: 200px; max-height: 200px;"
     />
   </:col>
   <:action :let={searches}>
     <div class="sr-only">
       <.link navigate={~p"/film/#{searches}"}>Show</.link>
     </div>
-    <.link navigate={~p"/film/new/#{searches}"}>Rate</.link>
   </:action>
 </.table>
+
+<script>
+  if (window.screen.availWidth < 420){
+    console.log(window.screen.availWidth)
+    tableElements = document.getElementsByClassName("relative p-0 hover:cursor-pointer")
+    rowHeaders = document.getElementsByClassName("p-0 pb-4 pr-6 font-normal")
+    for (let i = 0; i < rowHeaders.length; i++) {
+      if (rowHeaders[i].innerHTML.includes("Poster")) {
+        rowHeaders[i].remove()
+      }
+    }
+
+    for (let i = 0; i < tableElements.length; i++) {
+      var isMultipleOfThree = (i + 1) % 3 == 0
+      if (tableElements[i].innerHTML.includes("<img")) {
+        tableElements[i].remove()
+      }
+    }
+  }
+</script>

@@ -539,6 +539,11 @@ defmodule FilmAppWeb.CoreComponents do
         }
 
       }
+      @media only screen and (max-width: 340px) {
+        #ratings {
+          width: 420px;
+        }
+      }
     </style>
 
 
