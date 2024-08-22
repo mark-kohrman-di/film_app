@@ -29,7 +29,12 @@ config :film_app, FilmAppWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :film_app, FilmApp.Mailer, adapter: Swoosh.Adapters.Local
+config :swoosh, :api_client, Swoosh.ApiClient.Hackney
+
+config :film_app, FilmApp.Mailer,
+  adapter: Swoosh.Adapters.Mailjet,
+  api_key: System.get_env("MAILJET_API_KEY"),
+  secret: System.get_env("MAILJET_SECRET")
 
 # Configure esbuild (the version is required)
 config :esbuild,
