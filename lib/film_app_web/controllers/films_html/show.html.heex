@@ -5,6 +5,9 @@
     <.link href={~p"/film/#{@films.id}/edit"}>
       <.button>Edit rating</.button>
     </.link>
+    <.link href={~p"/film/#{@films.id}"} method="delete">
+      <.button>Delete rating</.button>
+    </.link>
   </:actions>
 </.header>
 
