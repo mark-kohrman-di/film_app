@@ -8,7 +8,7 @@ import Config
 config :film_app, FilmAppWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Configures Swoosh API Client
-config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: FilmApp.Finch
+config :swoosh, :api_client, Swoosh.ApiClient.Hackney
 
 # Disable Swoosh Local Memory Storage
 config :swoosh, local: false

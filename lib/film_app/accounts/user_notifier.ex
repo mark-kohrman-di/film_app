@@ -8,7 +8,7 @@ defmodule FilmApp.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"FilmApp", "contact@example.com"})
+      |> from({"The Film Guy", "mark.kohrman@gmail.com"})
       |> subject(subject)
       |> text_body(body)
 
