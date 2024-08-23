@@ -112,7 +112,7 @@ if config_env() == :prod do
       config :film_app, FilmApp.Mailer,
         adapter: Swoosh.Adapters.Mailjet,
         api_key: System.get_env("MAILJET_API_KEY"),
-        domain: System.get_env("MAILJET_SECRET")
+        secret: System.get_env("MAILJET_SECRET")
   #
   # For this example you need include a HTTP client required by Swoosh API client.
   # Swoosh supports Hackney and Finch out of the box:
