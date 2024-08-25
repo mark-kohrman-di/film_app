@@ -138,12 +138,20 @@ defmodule FilmAppWeb.FilmsController do
   end
 
   def delete(conn, %{"id" => id}) do
-    films = Movies.get_films!(id)
-    {:ok, _films} = Movies.delete_film(films)
+    film = Movies.get_films!(id)
+    current_user_id = Integer.to_string(conn.assigns.current_user.id)
 
-    conn
-    |> put_flash(:info, "Films deleted successfully.")
-    |> redirect(to: ~p"/film")
+    if current_user_id == film.user_id do
+      {:ok, _films} = Movies.delete_film(film)
+      conn
+      |> put_flash(:info, "Film deleted successfully.")
+      |> redirect(to: ~p"/films/user")
+    else
+      conn
+      |> put_flash(:error, "Error, you can only delete your own ratings.")
+      |> redirect(to: ~p"/films/user")
+    end
+
   end
 
   def validate_user(conn) do
