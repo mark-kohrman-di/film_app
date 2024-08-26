@@ -3,3 +3,18 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+div#flash-info {
+  position: fixed;
+  top: 75px;
+  left: 5px;
+  width: auto;
+  max-width: 230px;
+}
+
+div#flash-error {
+    position: fixed;
+    top: 75px;
+    left: 5px;
+    width: auto;
+    max-width: 230px;
+  }
