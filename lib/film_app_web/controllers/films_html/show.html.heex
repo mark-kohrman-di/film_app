@@ -2,12 +2,17 @@
   <%= @films.title %>
   <:subtitle>Saved rating below.</:subtitle>
   <:actions>
+    <div class="edit-btn">
     <.link href={~p"/film/#{@films.id}/edit"}>
-      <.button>Edit rating</.button>
+      <.button>Edit Rating</.button>
     </.link>
+    </div>
+    <div class="delete-btn">
     <.link href={~p"/film/#{@films.id}"} method="delete">
-      <.button>Delete rating</.button>
+      <.button>Delete Rating</.button>
     </.link>
+    </div>
+
   </:actions>
 </.header>
 
@@ -39,5 +44,8 @@
     .flex-none {
       flex: unset;
     }
+  }
+  .delete-btn {
+    padding-top: 5px;
   }
 </style>
