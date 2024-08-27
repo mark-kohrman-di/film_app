@@ -49,8 +49,6 @@ defmodule FilmAppWeb.Router do
     put "/director/:id", DirectorsController, :update
     delete "/director/:id", DirectorsController, :delete
 
-    get "/searches", SearchesController, :index
-    get "/search", SearchesController, :index
     get "/search/new", SearchesController, :new
     post "/search", SearchesController, :search
     get "/search/:id", SearchesController, :show

@@ -41,6 +41,9 @@ defmodule FilmAppWeb.SearchesController do
 
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
         {:error, "Received non-200 response: #{status_code}"}
+        conn
+        |> put_flash(:error, "Error, movie not found, please try again.")
+        |> redirect(to: ~p"/search/new")
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, "Request failed: #{reason}"}

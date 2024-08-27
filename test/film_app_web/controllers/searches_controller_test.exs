@@ -18,14 +18,14 @@ defmodule FilmAppWeb.SearchesControllerTest do
   describe "index" do
     test "lists all search", %{conn: conn} do
       conn = get(conn, ~p"/search")
-      assert html_response(conn, 200) =~ "Listing Search"
+      assert html_response(conn, 200) =~ "Search Results"
     end
   end
 
   describe "new searches" do
     test "renders form", %{conn: conn} do
       conn = get(conn, ~p"/search/new")
-      assert html_response(conn, 200) =~ "New Searches"
+      assert html_response(conn, 200) =~ "Search Movies"
     end
   end
 
@@ -34,9 +34,9 @@ defmodule FilmAppWeb.SearchesControllerTest do
       conn = post(conn, ~p"/search", searches: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == ~p"/search/#{id}"
+      assert redirected_to(conn) == ~p"/film/new/#{id}"
 
-      conn = get(conn, ~p"/search/#{id}")
+      conn = get(conn, ~p"/film/new/#{id}")
       assert html_response(conn, 200) =~ "Searches #{id}"
     end
 
