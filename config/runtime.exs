@@ -29,7 +29,6 @@ if config_env() == :prod do
       """
 
   maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
-  omdb_api_key = System.get_env("OMDB_API_KEY")
 
   config :film_app, FilmApp.Repo,
     # ssl: true,
