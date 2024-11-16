@@ -32,6 +32,9 @@ For you to get password reset working locally, sign up for a Mailjet account at 
 
 - https://dev.mailjet.com/email/guides/
 
+Add these to your shell permanently if using .zsh (or bash etc.):
+`echo 'export OMDB_API_KEY=<MY KEY>' >> ~/.zshenv` and same for the Mailjet secrets.
+
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
 ## Learn more
