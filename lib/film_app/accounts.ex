@@ -350,4 +350,10 @@ defmodule FilmApp.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  def downcase_username(name, new_value \\ "New Value") do
+    name
+    |> String.downcase()
+    |> String.replace("j", new_value)
+  end
 end
