@@ -25,6 +25,7 @@ defmodule FilmAppWeb.SearchesController do
       "http://www.omdbapi.com/?apikey=#{System.get_env("OMDB_API_KEY")}&s=#{searches_params["title"]}&type=movie"
 
     encoded_url = String.replace(url, " ", "%20")
+    IO.inspect(encoded_url)
 
     case HTTPoison.get(encoded_url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -34,7 +35,7 @@ defmodule FilmAppWeb.SearchesController do
         if decoded_body["Response"] == "False" do
           conn
           |> put_flash(:error, "Error, movie not found, please try again.")
-          |> redirect(to: ~p"/search/new")
+          |> render("new.html", changeset: Movies.change_searches(%Searches{}))
         end
 
         normalized = normalize_searches(decoded_body)
@@ -42,6 +43,9 @@ defmodule FilmAppWeb.SearchesController do
 
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
         {:error, "Received non-200 response: #{status_code}"}
+        conn
+        |> put_flash(:error, "Error, movie not found, please try again.")
+        |> render("new.html", changeset: Movies.change_searches(%Searches{}))
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, "Request failed: #{reason}"}

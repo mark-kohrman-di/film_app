@@ -35,7 +35,7 @@ defmodule FilmAppWeb.FilmsControllerTest do
 
   describe "create films" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, ~p"/film", films: @create_attrs)
+      conn = post(conn, ~p"/film/new/fakeid", films: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == ~p"/film/#{id}"
